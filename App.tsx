@@ -8,6 +8,7 @@ import {
   ArrowLeft,
   ChevronRight
 } from 'lucide-react';
+import { Analytics } from '@vercel/analytics/react';
 import { TOOLS, CATEGORIES } from './constants';
 import { Category, Tool } from './types';
 import InterestCalculator from './components/InterestCalculator';
@@ -210,6 +211,7 @@ const App: React.FC = () => {
           #root { background: white !important; }
         }
       `}</style>
+      <Analytics />
     </div>
   );
 };
