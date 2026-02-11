@@ -38,15 +38,19 @@ const UnitConverter: React.FC = () => {
   const [fromValue, setFromValue] = useState<string>('1');
   const [toValue, setToValue] = useState<string>('');
 
+  // Update units when mode changes
   useEffect(() => {
     const keys = mode === 'Length' ? Object.keys(LENGTH_UNITS) : Object.keys(AREA_UNITS);
     setFromUnit(keys[0]);
     setToUnit(keys[mode === 'Area' ? 3 : 1] || keys[0]);
   }, [mode]);
 
+  // Recalculate when inputs change
   useEffect(() => {
-    convert(fromValue, fromUnit, toUnit);
-  }, [fromUnit, toUnit, fromValue]);
+    if (fromUnit && toUnit) {
+      convert(fromValue, fromUnit, toUnit);
+    }
+  }, [fromUnit, toUnit, fromValue, mode]);
 
   const convert = (value: string, from: string, to: string) => {
     const val = parseFloat(value);
@@ -59,9 +63,13 @@ const UnitConverter: React.FC = () => {
     let toFactor = 0;
 
     if (mode === 'Length') {
+      // Safety check: Ensure units exist in the dictionary for the current mode
+      if (!LENGTH_UNITS[from] || !LENGTH_UNITS[to]) return;
       fromFactor = LENGTH_UNITS[from];
       toFactor = LENGTH_UNITS[to];
     } else {
+      // Safety check: Use optional chaining or existence check to prevent 'undefined' property access
+      if (!AREA_UNITS[from] || !AREA_UNITS[to]) return;
       fromFactor = AREA_UNITS[from].factor;
       toFactor = AREA_UNITS[to].factor;
     }
@@ -69,7 +77,7 @@ const UnitConverter: React.FC = () => {
     const fromInBase = val * fromFactor;
     const result = fromInBase / toFactor;
     
-    if (result < 0.0001) {
+    if (result < 0.0001 && result !== 0) {
       setToValue(result.toExponential(6));
     } else {
       setToValue(result.toLocaleString(undefined, { maximumFractionDigits: 6 }));
@@ -81,6 +89,8 @@ const UnitConverter: React.FC = () => {
     setFromUnit(toUnit);
     setToUnit(temp);
   };
+
+  const currentUnitKeys = mode === 'Length' ? Object.keys(LENGTH_UNITS) : Object.keys(AREA_UNITS);
 
   return (
     <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 sm:p-10 border border-slate-100 shadow-xl max-w-4xl mx-auto space-y-8 animate-in fade-in zoom-in-95 duration-300">
@@ -130,10 +140,7 @@ const UnitConverter: React.FC = () => {
               onChange={(e) => setFromUnit(e.target.value)}
               className="w-full p-4 bg-white dark:bg-slate-800 border-none rounded-2xl shadow-sm text-sm font-bold text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-blue-500 outline-none"
             >
-              {mode === 'Length' 
-                ? Object.keys(LENGTH_UNITS).map(u => <option key={u} value={u}>{u}</option>)
-                : Object.keys(AREA_UNITS).map(u => <option key={u} value={u}>{u}</option>)
-              }
+              {currentUnitKeys.map(u => <option key={u} value={u}>{u}</option>)}
             </select>
             <input
               type="number"
@@ -169,10 +176,7 @@ const UnitConverter: React.FC = () => {
               onChange={(e) => setToUnit(e.target.value)}
               className="w-full p-4 bg-white dark:bg-slate-800 border-none rounded-2xl shadow-sm text-sm font-bold text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-blue-500 outline-none"
             >
-              {mode === 'Length' 
-                ? Object.keys(LENGTH_UNITS).map(u => <option key={u} value={u}>{u}</option>)
-                : Object.keys(AREA_UNITS).map(u => <option key={u} value={u}>{u}</option>)
-              }
+              {currentUnitKeys.map(u => <option key={u} value={u}>{u}</option>)}
             </select>
             <div className="w-full p-6 bg-blue-600 dark:bg-blue-600 rounded-3xl shadow-xl text-3xl font-black text-white overflow-hidden text-ellipsis whitespace-nowrap">
               {toValue || '0'}
@@ -190,19 +194,21 @@ const UnitConverter: React.FC = () => {
       <div className="space-y-4 pt-4">
         <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 px-1">Common Conversions (1 {fromUnit})</h3>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {(mode === 'Length' ? Object.keys(LENGTH_UNITS) : Object.keys(AREA_UNITS)).slice(0, 8).map((unit) => {
+          {currentUnitKeys.slice(0, 8).map((unit) => {
             if (unit === fromUnit) return null;
             
             let fVal = 0;
             let tVal = 0;
 
             if (mode === 'Length') {
-              fVal = LENGTH_UNITS[fromUnit];
-              tVal = LENGTH_UNITS[unit];
+              fVal = LENGTH_UNITS[fromUnit] || 0;
+              tVal = LENGTH_UNITS[unit] || 0;
             } else {
-              fVal = AREA_UNITS[fromUnit].factor;
-              tVal = AREA_UNITS[unit].factor;
+              fVal = AREA_UNITS[fromUnit]?.factor || 0;
+              tVal = AREA_UNITS[unit]?.factor || 0;
             }
+
+            if (tVal === 0) return null;
 
             const converted = (parseFloat(fromValue) || 0) * (fVal / tVal);
 

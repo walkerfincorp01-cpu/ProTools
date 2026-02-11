@@ -1,0 +1,38 @@
+
+{
+  "short_name": "ProTools",
+  "name": "ProTools - Smart Multi-Utility Suite",
+  "description": "Professional suite of financial calculators, PDF tools, and image utilities. Works offline.",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/9431/9431166.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/9431/9431166.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#2563eb",
+  "background_color": "#ffffff",
+  "categories": ["productivity", "finance", "utilities"],
+  "shortcuts": [
+    {
+      "name": "Byaj Calculator",
+      "url": "./index.html?tool=interest-calculator",
+      "icons": [{ "src": "https://cdn-icons-png.flaticon.com/512/9431/9431166.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Invoice Maker",
+      "url": "./index.html?tool=invoice-generator",
+      "icons": [{ "src": "https://cdn-icons-png.flaticon.com/512/9431/9431166.png", "sizes": "192x192" }]
+    }
+  ]
+}

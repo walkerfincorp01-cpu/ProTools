@@ -2,27 +2,22 @@
 import React from 'react';
 import { 
   Calculator, 
-  FileText, 
-  Image as ImageIcon, 
-  Wrench, 
-  ArrowRightLeft, 
-  Maximize, 
+  ImageIcon, 
   Files, 
   Type, 
-  Hash, 
   Link, 
   TrendingUp, 
-  PieChart, 
   Percent, 
   CreditCard,
-  FileSearch,
-  Settings,
   Ruler,
   ReceiptText,
   Sigma,
-  FileType,
   FileImage,
-  Image as ImageFile
+  Image as ImageFile,
+  LayoutGrid,
+  Wallet,
+  FileText,
+  Settings
 } from 'lucide-react';
 import { Tool } from './types';
 
@@ -127,10 +122,10 @@ export const TOOLS: Tool[] = [
   }
 ];
 
-export const CATEGORIES: { name: string; label: string }[] = [
-  { name: 'Sabhi', label: 'Sabhi' },
-  { name: 'Financial', label: 'Financial' },
-  { name: 'PDF', label: 'PDF' },
-  { name: 'Image', label: 'Image' },
-  { name: 'Utility', label: 'Utility' }
+export const CATEGORIES = [
+  { name: 'Sabhi', label: 'Sabhi', icon: <LayoutGrid className="w-4 h-4" /> },
+  { name: 'Financial', label: 'Financial', icon: <Wallet className="w-4 h-4" /> },
+  { name: 'PDF', label: 'PDF Docs', icon: <FileText className="w-4 h-4" /> },
+  { name: 'Image', label: 'Photos', icon: <ImageFile className="w-4 h-4" /> },
+  { name: 'Utility', label: 'Tools', icon: <Settings className="w-4 h-4" /> }
 ];
