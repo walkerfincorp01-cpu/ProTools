@@ -1,4 +1,6 @@
 
+import React from 'react';
+
 export type Category = 'Sabhi' | 'Financial' | 'PDF' | 'Image' | 'Utility';
 
 export interface Tool {

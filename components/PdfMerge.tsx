@@ -7,12 +7,13 @@ const PdfMerge: React.FC = () => {
   const [files, setFiles] = useState<{ name: string; data: ArrayBuffer }[]>([]);
   const [merging, setMerging] = useState(false);
 
+  // Added explicit File type to prevent 'unknown' errors during PDF processing
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const uploadedFiles = e.target.files;
     if (uploadedFiles) {
-      Array.from(uploadedFiles).forEach(file => {
+      Array.from(uploadedFiles).forEach((file: File) => {
         const reader = new FileReader();
-        reader.onload = async (ev) => {
+        reader.onload = (ev) => {
           if (ev.target?.result) {
             setFiles(prev => [...prev, { name: file.name, data: ev.target!.result as ArrayBuffer }]);
           }

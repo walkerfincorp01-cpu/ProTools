@@ -19,7 +19,10 @@ import {
   Settings,
   Ruler,
   ReceiptText,
-  Sigma
+  Sigma,
+  FileType,
+  FileImage,
+  Image as ImageFile
 } from 'lucide-react';
 import { Tool } from './types';
 
@@ -74,18 +77,32 @@ export const TOOLS: Tool[] = [
     icon: <Percent className="w-6 h-6 text-rose-500" />
   },
   {
+    id: 'image-to-pdf',
+    title: 'JPG to PDF Converter',
+    description: 'Convert multiple images (JPG, PNG) into a single PDF document.',
+    category: 'PDF',
+    icon: <FileImage className="w-6 h-6 text-red-500" />
+  },
+  {
+    id: 'pdf-to-image',
+    title: 'PDF to JPG Converter',
+    description: 'Convert PDF pages into high-quality JPG or PNG images.',
+    category: 'PDF',
+    icon: <ImageFile className="w-6 h-6 text-rose-600" />
+  },
+  {
     id: 'image-resizer',
-    title: 'Image Resizer',
-    description: 'Resize images to specific dimensions and quality.',
+    title: 'Image Converter & Resizer',
+    description: 'Resize and convert images between PNG, JPG, and WebP formats.',
     category: 'Image',
-    icon: <Maximize className="w-6 h-6 text-orange-500" />
+    icon: <ImageIcon className="w-6 h-6 text-orange-500" />
   },
   {
     id: 'pdf-merge',
-    title: 'PDF Merge',
+    title: 'PDF Merger',
     description: 'Combine multiple PDF files into one single document.',
     category: 'PDF',
-    icon: <Files className="w-6 h-6 text-red-500" />
+    icon: <Files className="w-6 h-6 text-red-600" />
   },
   {
     id: 'text-counter',
